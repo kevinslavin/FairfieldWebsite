@@ -50,6 +50,27 @@ const SPECIES: SpeciesEntry[] = [
   },
 ];
 
+const HEADLINE = (
+  <>
+    Global Marketplace{" "}
+    <span
+      style={{
+        fontFamily: "var(--font-cormorant)",
+        fontSize: "0.45em",
+        fontStyle: "italic",
+        fontWeight: 400,
+        verticalAlign: "baseline",
+        letterSpacing: "0.02em",
+        textTransform: "lowercase",
+      }}
+    >
+      for
+    </span>
+    <br />
+    Genomic Discovery
+  </>
+);
+
 export function SpeciesShowcase() {
   const [index, setIndex] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -61,50 +82,77 @@ export function SpeciesShowcase() {
   const entry = SPECIES[index];
 
   return (
-    <div
-      className={`${cormorant.variable} ${bebas.variable} -mt-16 relative w-full overflow-hidden`}
-      style={{ aspectRatio: "2 / 0.8" }}
-    >
-      {/* Video */}
-      <video
-        key={entry.videoSrc}
-        ref={videoRef}
-        src={entry.videoSrc}
-        autoPlay
-        muted
-        playsInline
-        onEnded={handleEnded}
-        className="absolute inset-0 h-full w-full object-cover object-center"
-      />
+    <div className={`${cormorant.variable} ${bebas.variable}`}>
 
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/70" />
-
-      {/* Hero title — centered */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <h1
-          className="text-6xl uppercase text-white drop-shadow-lg sm:text-7xl lg:text-8xl xl:text-9xl"
-          style={{ fontFamily: "var(--font-bebas)", letterSpacing: "0.005em", lineHeight: 0.8 }}
+      {/* ── Mobile: headline sits above the video ── */}
+      {/* -mt-16 pulls it behind the transparent header; pt-[4.5rem] clears the nav text */}
+      <div className="sm:hidden -mt-16 bg-[oklch(0.16_0.025_260)] px-6 pb-4 pt-20">
+        <p
+          className="text-5xl uppercase leading-none text-white"
+          style={{ fontFamily: "var(--font-bebas)", letterSpacing: "0.005em" }}
         >
-          Global Marketplace <span style={{ fontFamily: "var(--font-cormorant)", fontSize: "0.45em", fontStyle: "italic", fontWeight: 400, verticalAlign: "baseline", letterSpacing: "0.02em", textTransform: "lowercase" }}>for</span><br />Genomic Discovery
-        </h1>
+          Global Marketplace
+        </p>
+        <p
+          className="text-xl italic leading-none -mt-[6px] mb-1 text-white/90"
+          style={{ fontFamily: "var(--font-cormorant)", fontWeight: 400 }}
+        >
+          for
+        </p>
+        <p
+          className="text-5xl uppercase leading-none text-white"
+          style={{ fontFamily: "var(--font-bebas)", letterSpacing: "0.005em" }}
+        >
+          Genomic Discovery
+        </p>
       </div>
 
-      {/* Species labels — lower left */}
-      <div className="absolute bottom-0 left-0 px-8 pb-6">
-        <div className="text-white">
-          <p
-            className="text-xl italic leading-snug tracking-wide text-white/90 sm:text-2xl"
-            style={{ fontFamily: "var(--font-cormorant)", fontWeight: 700 }}
+      {/* ── Video container ──
+          Desktop: full-bleed under transparent header (-mt-16), fixed short aspect ratio
+          Mobile: flush below headline block, 16:9  */}
+      <div
+        className="relative w-full overflow-hidden aspect-video sm:-mt-16 sm:aspect-[2/0.8]"
+      >
+        <video
+          key={entry.videoSrc}
+          ref={videoRef}
+          src={entry.videoSrc}
+          autoPlay
+          muted
+          playsInline
+          onEnded={handleEnded}
+          className="absolute inset-0 h-full w-full object-cover object-center"
+        />
+
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/70" />
+
+        {/* Desktop-only headline — centered over video */}
+        <div className="hidden sm:flex absolute inset-0 items-center justify-center">
+          <h1
+            className="text-6xl uppercase text-white drop-shadow-lg sm:text-7xl lg:text-8xl xl:text-9xl"
+            style={{ fontFamily: "var(--font-bebas)", letterSpacing: "0.005em", lineHeight: 0.8 }}
           >
-            {entry.scientificName}
-          </p>
-          <p className="mt-0.5 text-xs font-bold uppercase tracking-[0.08em] text-yellow-300 sm:text-sm">
-            {entry.location}
-          </p>
-          <p className="mt-2 text-xl font-light tracking-wide text-white sm:text-2xl">
-            {entry.discovery}
-          </p>
+            {HEADLINE}
+          </h1>
+        </div>
+
+        {/* Species labels — lower left */}
+        <div className="absolute bottom-0 left-0 px-6 pb-5 sm:px-8 sm:pb-6">
+          <div className="text-white">
+            <p
+              className="text-lg italic leading-snug tracking-wide text-white/90 sm:text-2xl"
+              style={{ fontFamily: "var(--font-cormorant)", fontWeight: 700 }}
+            >
+              {entry.scientificName}
+            </p>
+            <p className="mt-0.5 text-xs font-bold uppercase tracking-[0.08em] text-yellow-300 sm:text-sm">
+              {entry.location}
+            </p>
+            <p className="mt-1.5 text-base font-light tracking-wide text-white sm:mt-2 sm:text-2xl">
+              {entry.discovery}
+            </p>
+          </div>
         </div>
       </div>
     </div>

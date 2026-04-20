@@ -9,7 +9,7 @@ export default function HomePage() {
       <SpeciesShowcase />
 
       {/* Supporting text + CTAs — dark full-bleed */}
-      <section className="relative overflow-hidden bg-[oklch(0.16_0.025_260)] px-6 py-28">
+      <section className="relative overflow-hidden bg-[oklch(0.16_0.025_260)] px-6 pt-8 pb-16 sm:py-28">
         <span className="absolute left-8 top-8 select-none font-mono text-2xl leading-none text-white/15">+</span>
         <span className="absolute right-8 top-8 select-none font-mono text-2xl leading-none text-white/15">+</span>
         <span className="absolute bottom-8 left-8 select-none font-mono text-2xl leading-none text-white/15">+</span>
@@ -17,7 +17,7 @@ export default function HomePage() {
 
         <div className="mx-auto max-w-6xl">
           <div className="grid gap-8 lg:grid-cols-2 lg:gap-16">
-            <p className="text-xl font-medium leading-snug text-white">
+            <p className="text-base font-medium leading-snug text-white sm:text-xl">
               Of a billion or so species on Earth, humans have full genomic
               sequences for fewer than 100,000 of them. Within the genomic
               data of the remaining 99.999% of life lies the future of drug
@@ -25,28 +25,14 @@ export default function HomePage() {
               like every precious resource, this data is unevenly distributed
               across (and within) geographic boundaries.
             </p>
-            <p className="text-xl font-medium leading-snug text-white">
+            <p className="text-base font-medium leading-snug text-white sm:text-xl">
               Fairfield enables sovereign providers of this data to benefit
               from contributing it to global science, while providing
               researchers with clear contractual terms for the commercial use
               of validated data. To unblock the bottleneck, we provide
-              validated data and legal frameworks, ensuring that everything we
-              discover can benefit everyone, everywhere.
+              validated data and legal frameworks, ensuring that everything
+              that's discovered can benefit everyone, everywhere.
             </p>
-          </div>
-          <div className="mt-12 flex flex-wrap gap-4">
-            <Link
-              href="/providers"
-              className="inline-flex h-12 items-center rounded-sm bg-white px-8 text-sm font-semibold uppercase tracking-widest text-[oklch(0.16_0.025_260)] transition-colors hover:bg-white/90"
-            >
-              For Data Providers
-            </Link>
-            <Link
-              href="/users"
-              className="inline-flex h-12 items-center rounded-sm bg-white px-8 text-sm font-semibold uppercase tracking-widest text-[oklch(0.16_0.025_260)] transition-colors hover:bg-white/90"
-            >
-              For Researchers &amp; Industry
-            </Link>
           </div>
         </div>
       </section>
@@ -85,7 +71,7 @@ export default function HomePage() {
                 key={item.stat}
                 className={`py-10 sm:py-0 ${i === 0 ? "sm:pr-12" : i === 1 ? "sm:px-12" : "sm:pl-12"}`}
               >
-                <p className={`font-mono font-bold leading-none tracking-tight text-primary ${i === 0 ? "text-5xl sm:text-6xl" : "text-7xl sm:text-8xl"}`}>
+                <p className="font-mono font-bold leading-none tracking-tight text-primary text-7xl sm:text-8xl">
                   {item.stat}
                 </p>
                 <p className="mt-4 text-base font-semibold text-foreground sm:mt-6">
@@ -234,11 +220,8 @@ export default function HomePage() {
           title="Two sides of a single marketplace"
         />
         <div className="mt-14 grid gap-6 sm:grid-cols-2">
-          <Link
-            href="/providers"
-            className="group border border-border p-10 transition-colors hover:border-primary/40 hover:bg-primary/[0.02]"
-          >
-            <h3 className="text-2xl font-semibold text-foreground group-hover:text-primary">
+          <div className="border border-border p-10">
+            <h3 className="text-2xl font-semibold text-foreground">
               For Data Providers
             </h3>
             <p className="mt-1 text-sm font-medium uppercase tracking-wider text-muted-foreground">
@@ -250,19 +233,10 @@ export default function HomePage() {
               legal, and commercially rewarding way to make it available to the
               world&mdash;without giving up control.
             </p>
-            <span className="mt-8 inline-flex items-center text-sm font-semibold uppercase tracking-wider text-primary">
-              Learn more
-              <svg className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-              </svg>
-            </span>
-          </Link>
+          </div>
 
-          <Link
-            href="/users"
-            className="group border border-border p-10 transition-colors hover:border-primary/40 hover:bg-primary/[0.02]"
-          >
-            <h3 className="text-2xl font-semibold text-foreground group-hover:text-primary">
+          <div className="border border-border p-10">
+            <h3 className="text-2xl font-semibold text-foreground">
               For Researchers &amp; Industry
             </h3>
             <p className="mt-1 text-sm font-medium uppercase tracking-wider text-muted-foreground">
@@ -274,46 +248,9 @@ export default function HomePage() {
               Validated, annotated, and governed by clear legal terms. No more
               rejected requests. No more legal risk.
             </p>
-            <span className="mt-8 inline-flex items-center text-sm font-semibold uppercase tracking-wider text-primary">
-              Learn more
-              <svg className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-              </svg>
-            </span>
-          </Link>
-        </div>
-      </Section>
-
-      {/* Credibility */}
-      <section className="border-t border-border px-6 py-20">
-        <div className="mx-auto max-w-6xl">
-          <p className="text-center text-sm font-semibold uppercase tracking-wider text-primary">
-            Built on Trust
-          </p>
-          <p className="mx-auto mt-4 max-w-xl text-center text-muted-foreground">
-            Fairfield Bio is in active conversation with national governments,
-            research institutions, and global health organizations across six
-            continents.
-          </p>
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-x-14 gap-y-5">
-            {[
-              "World Health Assembly",
-              "World Health Summit",
-              "Wellcome Sanger Institute",
-              "Singapore EDB",
-              "A*STAR",
-              "Davos",
-            ].map((name) => (
-              <span
-                key={name}
-                className="text-sm font-semibold uppercase tracking-widest text-muted-foreground/70"
-              >
-                {name}
-              </span>
-            ))}
           </div>
         </div>
-      </section>
+      </Section>
 
       {/* CTA — dark with corner marks */}
       <section className="relative overflow-hidden bg-primary px-6 py-28 text-primary-foreground">
@@ -322,20 +259,21 @@ export default function HomePage() {
         <span className="absolute bottom-8 left-8 font-mono text-2xl leading-none text-primary-foreground/20 select-none">+</span>
         <span className="absolute bottom-8 right-8 font-mono text-2xl leading-none text-primary-foreground/20 select-none">+</span>
 
-        <div className="mx-auto max-w-6xl text-center">
-          <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-            Ready to explore a partnership?
-          </h2>
-          <p className="mx-auto mt-5 max-w-xl text-lg text-primary-foreground/75">
-            Whether you hold genomic data or need access to it, we&apos;d like
-            to hear from you.
+        <div className="mx-auto max-w-4xl text-center">
+          <p className="text-lg leading-relaxed text-primary-foreground/90 sm:text-xl">
+            Fairfield Bio is in active conversations with national governments, research institutions,<br className="hidden sm:block" />
+            and global health organizations across six continents.
           </p>
-          <Link
-            href="/contact"
+          <p className="mt-5 text-lg leading-relaxed text-primary-foreground/75 sm:text-xl">
+            Whether you&apos;re generating unique genomic data, or need access to that novel data for R&amp;D,<br className="hidden sm:block" />
+            we&apos;d love to figure out how to unblock the bottleneck together.
+          </p>
+          <a
+            href="mailto:info@fairfieldbio.com"
             className="mt-10 inline-flex h-12 items-center rounded-sm bg-primary-foreground px-10 text-sm font-semibold uppercase tracking-widest text-primary transition-colors hover:bg-primary-foreground/90"
           >
             Get in Touch
-          </Link>
+          </a>
         </div>
       </section>
     </>
