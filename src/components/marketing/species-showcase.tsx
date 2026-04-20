@@ -84,14 +84,14 @@ export function SpeciesShowcase() {
       <div className="absolute inset-0 flex items-center justify-center">
         <h1
           className="text-6xl uppercase text-white drop-shadow-lg sm:text-7xl lg:text-8xl xl:text-9xl"
-          style={{ fontFamily: "var(--font-bebas)", letterSpacing: "0.005em" }}
+          style={{ fontFamily: "var(--font-bebas)", letterSpacing: "0.005em", lineHeight: 0.8 }}
         >
-          Bio Beyond Borders
+          Global Marketplace <span style={{ fontFamily: "var(--font-cormorant)", fontSize: "0.45em", fontStyle: "italic", fontWeight: 400, verticalAlign: "baseline", letterSpacing: "0.02em", textTransform: "lowercase" }}>for</span><br />Genomic Discovery
         </h1>
       </div>
 
       {/* Species labels — lower left */}
-      <div className="absolute bottom-0 left-0 px-8 pb-8">
+      <div className="absolute bottom-0 left-0 px-8 pb-6">
         <div className="text-white">
           <p
             className="text-xl italic leading-snug tracking-wide text-white/90 sm:text-2xl"
