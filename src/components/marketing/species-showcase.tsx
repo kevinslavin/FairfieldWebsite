@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { Cormorant_Garamond, Bebas_Neue } from "next/font/google";
 
 const cormorant = Cormorant_Garamond({
@@ -79,6 +79,14 @@ export function SpeciesShowcase() {
     setIndex((prev) => (prev + 1) % SPECIES.length);
   }, []);
 
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.src = SPECIES[index].videoSrc;
+    video.load();
+    video.play().catch(() => {});
+  }, [index]);
+
   const entry = SPECIES[index];
 
   return (
@@ -111,12 +119,11 @@ export function SpeciesShowcase() {
           Desktop: full-bleed under transparent header (-mt-16), fixed short aspect ratio
           Mobile: flush below headline block, 16:9  */}
       <div
-        className="relative w-full overflow-hidden aspect-video sm:-mt-16 sm:aspect-[2/0.8]"
+        className="relative w-full overflow-hidden aspect-video bg-black sm:-mt-16 sm:aspect-[2/0.8]"
       >
         <video
-          key={entry.videoSrc}
           ref={videoRef}
-          src={entry.videoSrc}
+          src={SPECIES[0].videoSrc}
           autoPlay
           muted
           playsInline
