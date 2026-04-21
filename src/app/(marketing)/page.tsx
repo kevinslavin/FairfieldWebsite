@@ -230,8 +230,8 @@ export default function HomePage() {
             <div className="my-6 border-t border-border" />
             <p className="text-base leading-relaxed text-muted-foreground">
               Your genomic data is sovereign. Fairfield gives you a safe,
-              legal, and commercially rewarding way to make it available to the
-              world&mdash;without giving up control.
+              legal, and commercially rewarding way to make it discoverable to
+              the world, without giving up control.
             </p>
           </div>
 
