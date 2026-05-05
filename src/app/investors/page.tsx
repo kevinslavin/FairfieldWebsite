@@ -233,7 +233,7 @@ function UpdateContent({ activeSection }: { activeSection: string }) {
             Catching up: this is our first formal investor update, with lots to share.
           </P>
           <P>
-            The last three months have, um, operationally intensive. We opened, and then concluded,
+            The last three months have been, um, operationally intensive. We opened, and then concluded,
             funding with all of your support. We brought on our first science hire and fractional
             admin support, built and tested the mvp of our first product, launched a first website,
             traveled to meetings in seven countries (governments, institutions, and potential
@@ -536,8 +536,8 @@ function UpdateContent({ activeSection }: { activeSection: string }) {
             </Li>
             <Li>
               <strong>Prof. David Heymann</strong> (LSHTM): One of the world&rsquo;s most
-              prominent infectious disease epidemiologists, former WHO Executive Director who led
-              the global SARS response. Recommended we engage with CBD Secretariat in Montreal.
+              prominent infectious disease epidemiologists, former WHO Executive Director of
+              Communicable Diseases who led the global SARS response. Recommended we engage with CBD Secretariat in Montreal.
             </Li>
           </Ul>
           <P>
