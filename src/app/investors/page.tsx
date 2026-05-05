@@ -658,7 +658,7 @@ function UpdateContent({ activeSection }: { activeSection: string }) {
               opportunities here.
             </Li>
             <Li>
-              <strong>AmCham Singapore</strong>: KEVIN AND Mitch presented at an AmCham
+              <strong>AmCham Singapore</strong>: Kevin and Mitch presented at an AmCham
               roundtable &mdash; &ldquo;Global Genomic Discovery: From Pandemic Prevention to
               Building the New Frontier of Human Health, Agriculture, and Industrial
               Innovation.&rdquo; 30 registrants including representatives from pharma, biotech,
