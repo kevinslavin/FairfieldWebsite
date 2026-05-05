@@ -995,12 +995,12 @@ function UpdateContent({ activeSection }: { activeSection: string }) {
 
         {/* Closing */}
         <footer className="pb-16">
-          <P>
-            Thank you again for your support. We&rsquo;re building something that didn&rsquo;t
-            exist before, and these first three months have confirmed, through dozens of meetings
-            across seven countries with the people who work closest to this problem, that the
-            market need is real, urgent, and growing.
-          </P>
+          <p className="text-[20px] text-stone-700 leading-relaxed mb-5">
+            <em>Thank you again for your support.</em> We&rsquo;re building something that
+            didn&rsquo;t exist before. These first three months have confirmed, through dozens of
+            meetings across seven countries (with the folks closest to these problems) that the
+            market needs are real, urgent, and growing.
+          </p>
           <P>More soon.</P>
           <p className="text-[20px] text-stone-700 mt-6 font-medium">Kevin and Mitch</p>
           <p className="text-[17px] text-stone-400">Fairfield Bio</p>
