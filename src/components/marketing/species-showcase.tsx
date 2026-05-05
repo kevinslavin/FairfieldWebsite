@@ -72,48 +72,21 @@ const HEADLINE = (
 );
 
 export function SpeciesShowcase() {
-  // activeSlot: which video element (0 or 1) is currently visible
-  const [activeSlot, setActiveSlot] = useState(0);
   const [index, setIndex] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-  const videoRefs = [
-    useRef<HTMLVideoElement>(null),
-    useRef<HTMLVideoElement>(null),
-  ];
-
-  // When index advances, the inactive slot already has the next video preloaded.
-  // Flip visibility immediately, then preload the one after that into the now-hidden slot.
-  const handleEnded = useCallback(() => {
-    const nextIndex = (index + 1) % SPECIES.length;
-    const nextNextIndex = (index + 2) % SPECIES.length;
-    const nextSlot = 1 - activeSlot;
-
-    // Start playing the preloaded next video immediately
-    const nextVideo = videoRefs[nextSlot].current;
-    if (nextVideo) nextVideo.play().catch(() => {});
-
-    // Swap visible slot
-    setActiveSlot(nextSlot);
-    setIndex(nextIndex);
-
-    // Preload next-next into the slot we just vacated
-    const hiddenVideo = videoRefs[activeSlot].current;
-    if (hiddenVideo) {
-      hiddenVideo.src = SPECIES[nextNextIndex].videoSrc;
-      hiddenVideo.load();
-    }
-  }, [index, activeSlot]);
-
-  // On mount: slot 0 plays first video, slot 1 preloads second
+  // Imperatively load + play whenever index changes.
+  // Avoids browser caching issues that cause onEnded to misfire on repeat cycles.
   useEffect(() => {
-    const v0 = videoRefs[0].current;
-    const v1 = videoRefs[1].current;
-    if (v0) v0.play().catch(() => {});
-    if (v1) {
-      v1.src = SPECIES[1].videoSrc;
-      v1.load();
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    const video = videoRef.current;
+    if (!video) return;
+    video.src = SPECIES[index].videoSrc;
+    video.load();
+    video.play().catch(() => {});
+  }, [index]);
+
+  const handleEnded = useCallback(() => {
+    setIndex((prev) => (prev + 1) % SPECIES.length);
   }, []);
 
   const entry = SPECIES[index];
@@ -144,29 +117,20 @@ export function SpeciesShowcase() {
       </div>
 
       {/* ── Video container ── */}
-      <div
-        className="relative w-full overflow-hidden aspect-video bg-black sm:-mt-16 sm:aspect-[2/0.8]"
-      >
-        {/* Two video elements — only the active slot is visible */}
-        {[0, 1].map((slot) => (
-          <video
-            key={slot}
-            ref={videoRefs[slot]}
-            src={SPECIES[slot === 0 ? 0 : 1].videoSrc}
-            autoPlay={slot === 0}
-            muted
-            playsInline
-            onEnded={slot === activeSlot ? handleEnded : undefined}
-            className="absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-0"
-            style={{ opacity: slot === activeSlot ? 1 : 0, zIndex: slot === activeSlot ? 1 : 0 }}
-          />
-        ))}
+      <div className="relative w-full overflow-hidden aspect-video bg-black sm:-mt-16 sm:aspect-[2/0.8]">
+        <video
+          ref={videoRef}
+          muted
+          playsInline
+          onEnded={handleEnded}
+          className="absolute inset-0 h-full w-full object-cover object-center"
+        />
 
         {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/70" style={{ zIndex: 2 }} />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/70" />
 
         {/* Desktop-only headline — centered over video */}
-        <div className="hidden sm:flex absolute inset-0 items-center justify-center" style={{ zIndex: 3 }}>
+        <div className="hidden sm:flex absolute inset-0 items-center justify-center">
           <h1
             className="text-6xl uppercase text-white drop-shadow-lg sm:text-7xl lg:text-8xl xl:text-9xl"
             style={{ fontFamily: "var(--font-bebas)", letterSpacing: "0.005em", lineHeight: 0.8 }}
@@ -176,7 +140,7 @@ export function SpeciesShowcase() {
         </div>
 
         {/* Species labels — lower left */}
-        <div className="absolute bottom-0 left-0 px-6 pb-5 sm:px-8 sm:pb-6" style={{ zIndex: 3 }}>
+        <div className="absolute bottom-0 left-0 px-6 pb-5 sm:px-8 sm:pb-6">
           <div className="text-white">
             <p
               className="text-lg italic leading-snug tracking-wide text-white/90 sm:text-2xl"
