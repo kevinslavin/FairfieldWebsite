@@ -3,6 +3,12 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { Cormorant_Garamond, Bebas_Neue } from "next/font/google";
 
+// Videos are served from a CDN (Cloudflare R2) to keep them off Vercel's
+// Fast Data Transfer quota. Falls back to a same-origin path when unset,
+// which is only useful in local dev if the files still exist under public/.
+const VIDEO_CDN_URL = process.env.NEXT_PUBLIC_VIDEO_CDN_URL ?? "";
+const videoUrl = (path: string) => `${VIDEO_CDN_URL}${path}`;
+
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -72,24 +78,42 @@ const HEADLINE = (
 );
 
 export function SpeciesShowcase() {
-  const [index, setIndex] = useState(0);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  // Double-buffered playback for seamless transitions.
+  // Two fixed <video> slots. `active` is the visible one; the hidden slot
+  // always holds the NEXT clip with preload="auto", so when the active clip
+  // ends we hard-cut to an already-buffered first frame — no flash or gap.
+  // `content` maps each slot -> the SPECIES index it currently has loaded.
+  const [state, setState] = useState<{ active: 0 | 1; content: [number, number] }>({
+    active: 0,
+    content: [0, 1],
+  });
 
-  // Imperatively load + play whenever index changes.
-  // Avoids browser caching issues that cause onEnded to misfire on repeat cycles.
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.src = SPECIES[index].videoSrc;
-    video.load();
-    video.play().catch(() => {});
-  }, [index]);
+  const ref0 = useRef<HTMLVideoElement>(null);
+  const ref1 = useRef<HTMLVideoElement>(null);
+  const videoRefs = [ref0, ref1];
 
   const handleEnded = useCallback(() => {
-    setIndex((prev) => (prev + 1) % SPECIES.length);
+    setState((s) => {
+      const nextActive = (1 - s.active) as 0 | 1;
+      const content: [number, number] = [...s.content] as [number, number];
+      // The slot we're leaving now preloads the clip AFTER the one we cut to.
+      content[s.active] = (s.content[nextActive] + 1) % SPECIES.length;
+      return { active: nextActive, content };
+    });
   }, []);
 
-  const entry = SPECIES[index];
+  // Whenever the active slot changes, restart it from frame 0 and play.
+  // Runs on mount too, guaranteeing the first clip autoplays.
+  useEffect(() => {
+    const v = videoRefs[state.active].current;
+    if (v) {
+      v.currentTime = 0;
+      v.play().catch(() => {});
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.active]);
+
+  const entry = SPECIES[state.content[state.active]];
 
   return (
     <div className={`${cormorant.variable} ${bebas.variable}`}>
@@ -118,13 +142,21 @@ export function SpeciesShowcase() {
 
       {/* ── Video container ── */}
       <div className="relative w-full overflow-hidden aspect-video bg-black sm:-mt-16 sm:aspect-[2/0.8]">
-        <video
-          ref={videoRef}
-          muted
-          playsInline
-          onEnded={handleEnded}
-          className="absolute inset-0 h-full w-full object-cover object-center"
-        />
+        {/* Double buffer: two slots, only the active one visible */}
+        {[0, 1].map((slot) => (
+          <video
+            key={slot}
+            ref={videoRefs[slot]}
+            src={videoUrl(SPECIES[state.content[slot]].videoSrc)}
+            muted
+            playsInline
+            autoPlay={slot === 0}
+            preload="auto"
+            onEnded={slot === state.active ? handleEnded : undefined}
+            className="absolute inset-0 h-full w-full object-cover object-center"
+            style={{ opacity: slot === state.active ? 1 : 0 }}
+          />
+        ))}
 
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/70" />
