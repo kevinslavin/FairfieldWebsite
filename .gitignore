@@ -42,3 +42,7 @@ next-env.d.ts
 
 # local video source backups (do not deploy)
 /video-originals
+
+# local tooling / scratch (not for the repo)
+/.claude
+/.playwright-mcp
