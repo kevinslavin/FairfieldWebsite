@@ -29,16 +29,15 @@ No AAAA / DKIM (`google._domainkey`) / DMARC records currently exist.
 > `slavin@fairfieldbio.com`). If it isn't replicated before the nameserver switch,
 > email stops.
 
+Cloudflare nameservers assigned: `irma.ns.cloudflare.com`, `rohin.ns.cloudflare.com`.
+
 ## Runbook (ordered)
 
-1. **You:** Create a Cloudflare account → **Add a site** → `fairfieldbio.com` →
-   **Free** plan. Let it auto-scan DNS, then confirm all four records above are
-   present. Note the two Cloudflare nameservers it assigns.
-2. **Claude (browser):** verify/fix the four records; set the Vercel records to
-   DNS-only.
-3. **Claude (browser, Squarespace):** replace the Google nameservers with
-   Cloudflare's two. Wait for the Cloudflare zone to show **Active**.
-4. **You:** Enable R2 (needs a payment method on file). Then:
+1. [DONE] Cloudflare account created, `fairfieldbio.com` added (Free), DNS auto-scanned.
+2. [DONE] All four records verified in Cloudflare; Vercel A/CNAME set to DNS-only.
+3. [DONE] Squarespace nameservers switched to Cloudflare. Propagated + verified:
+   apex/www return HTTP 200, MX + TXT intact. No downtime.
+4. **You (NEXT):** Enable R2 (needs a payment method on file). Then:
    ```bash
    npx wrangler login
    bash scripts/setup-r2-videos.sh
