@@ -40,6 +40,18 @@ export function Header() {
           </span>
         </Link>
 
+        <nav className="flex items-center gap-8">
+          <Link
+            href="/about"
+            className={`text-sm font-medium transition-colors duration-300 ${
+              scrolled
+                ? "text-muted-foreground hover:text-foreground"
+                : "text-white/80 hover:text-white"
+            }`}
+          >
+            About
+          </Link>
+        </nav>
       </div>
     </header>
   );
